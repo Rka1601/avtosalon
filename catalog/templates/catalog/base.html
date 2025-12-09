@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ВЕРТИКАЛЬ-AВТО - Продажа автомобилей с пробегом{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFBF00;
+            --primary-dark: #BF9B30;
+            --primary-darker: #A67C00;
+            --dark: #1a1a1a;
+            --transparent: #ffffff00;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .fw-bold {
+            font-weight: 900 !important;
+        }
+        
+        .navbar-brand, .nav-link, .btn {
+            font-weight: 700;
+        }
+        
+        
+        .text-price {
+            color: var(--primary) !important;
+            font-weight: 900 !important;
+        }
+
+        .card-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        
+        @media (max-width: 768px) {
+            .card-price {
+                font-size: 1.3rem;
+            }
+        }
+
+        .bg-primary-custom {
+            background-color: var(--primary) !important;
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: var(--dark);
+            font-weight: 700;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            color: var(--dark);
+        }
+        
+        .btn-outline-primary-custom {
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        
+        .btn-whatsapp {
+            background-color: #25D366 !important;
+            border-color: #25D366 !important;
+            color: white !important;
+            font-weight: 700 !important;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E !important;
+            border-color: #128C7E !important;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        
+        .btn-telegram {
+            background-color: #0088cc !important;
+            border-color: #0088cc !important;
+            color: white !important;
+            font-weight: 700 !important;
+        }
+
+        .btn-telegram:hover {
+            background-color: #005580 !important;
+            border-color: #005580 !important;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            .btn-telegram, .btn-whatsapp {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .btn-telegram.me-2, .btn-whatsapp.me-2 {
+                margin-right: 0 !important;
+            }
+        }
+
+
+.btn-telegram, .btn-whatsapp {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-telegram:hover, .btn-whatsapp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+        .btn-outline-primary-custom:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: var(--dark);
+        }
+        
+        .text-primary-custom {
+            color: var(--primary) !important;
+        }
+
+        .hero-section {
+    background: 
+        linear-gradient(
+            90deg,
+            var(--primary) 0%,
+            var(--primary) 40%,
+            transparent 80%
+        ),
+        url("{% static 'catalog/images/hero-car.png' %}") no-repeat right center;
+    
+    background-size: 100% 100%, cover;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+}
+        
+        .quick-filter-card {
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .quick-filter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 191, 0, 0.2);
+        }
+        
+        .navbar-dark .navbar-nav .nav-link {
+            color: white;
+            font-size: 1.1rem;
+            margin: 0 10px;
+        }
+        
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        
+        @media (max-width: 768px) {
+            .hero-section {
+        background: 
+            linear-gradient(
+                180deg,
+                var(--primary) 0%,
+                var(--primary) 40%,
+                transparent 80%
+            ),
+            url("{% static 'catalog/images/hero-car.png' %}") no-repeat center bottom;
+        
+        background-size: 100% 100%, cover;
+        min-height: 600px;
+    }
+            .hero-section .display-4 {
+                font-size: 2.5rem;
+            }
+            
+            .quick-filter-card {
+                margin-bottom: 15px;
+            }
+            
+            .navbar-nav {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fs-2 fw-bold" href="{% url 'index' %}">
+                <span class="text-primary-custom">ВЕРТИКАЛЬ</span>-АВТО
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'car_list' %}">Каталог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacts">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="footer mt-auto py-4 bg-dark text-light">
+        <div class="container">
+            <div class="row">
+            
+                <div class="col-md-6 mb-3">
+                    <h5 class="text-warning">ВЕРТИКАЛЬ-АВТО</h5>
+                    <p class="mb-2">Продажа качественных автомобилей с пробегом в Барнауле. Более 10 лет на рынке автомобильных услуг. Гарантия качества, trade-in, кредитование.</p>
+                    <p class="small text-muted">Мы тщательно проверяем каждый автомобиль перед продажей.</p>
+                </div>
+            
+            
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-warning">Контакты</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> г. Барнаул</li>
+                        <li><i class="fas fa-clock me-2"></i> Пн-Вс: 9:00-17:00</li>
+                    </ul>
+                </div>
+            
+            
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-warning">Навигация</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'car_list' %}" class="text-light text-decoration-none">Каталог авто</a></li>
+                        <li><a href="{% url 'index' %}" class="text-light text-decoration-none">Главная</a></li>
+                        <li><a href="#contacts" class="text-light text-decoration-none">Контакты</a></li>
+                    </ul>
+                </div>
+            </div>
+        
+            <hr class="my-4 bg-secondary">
+        
+                <div class="row align-items-center">
+                        <p class="mb-0 small">&copy; 2025 ВЕРТИКАЛЬ-АВТО. Все права защищены.</p>
+                </div>
+            </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

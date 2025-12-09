@@ -1,0 +1,88 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2>Договор купли-продажи</h2>
+                <h4>{{ car.brand }} {{ car.model }} ({{ car.year }})</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <h4 class="mb-3">Данные покупателя</h4>
+                    
+                    {% for field in form %}
+                        {% if field.name in 'buyer_full_name,buyer_passport_series,buyer_passport_number,buyer_passport_issued,buyer_registration_address' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <h4 class="mt-4 mb-3">Данные автомобиля</h4>
+
+                    <table class="table table-bordered mb-4">
+                        <tr><th>Марка</th><td>{{ car.brand }}</td></tr>
+                        <tr><th>Модель</th><td>{{ car.model }}</td></tr>
+                        <tr><th>Год</th><td>{{ car.year }}</td></tr>
+                        <tr><th>Цена</th><td>{{ car.price }} руб.</td></tr>
+                    </table>
+
+                    {% for field in form %}
+                        {% if field.name in 'car_vin,car_license_plate' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <h4 class="mt-4 mb-3">Контактные данные</h4>
+
+                    {% for field in form %}
+                        {% if field.name in 'seller_phone,buyer_phone' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary-custom fw-bold">Скачать договор</button>
+                        <a href="{% url 'car_detail' car.id %}" class="btn btn-secondary">Назад к автомобилю</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'catalog/js/input-masks.js' %}"></script>
+<script src="{% static 'catalog/js/filters.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center border-0 shadow-lg">
+                <div class="card-header bg-warning text-dark py-4">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="fas fa-check-circle me-2"></i>Заявка отправлена успешно!
+                    </h4>
+                </div>
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                    </div>
+                    
+                    <h4 class="fw-bold text-dark mb-3">Спасибо за вашу заявку!</h4>
+                    <p class="text-muted fs-5">Мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
+                    
+                    <div class="booking-details p-4 bg-light rounded-3 border mt-4">
+                        <h5 class="fw-bold text-dark mb-3">
+                            <i class="fas fa-clipboard-list me-2 text-warning"></i>Детали записи:
+                        </h5>
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <p class="mb-2"><strong>Автомобиль:</strong> {{ car.brand }} {{ car.model }}</p>
+                                <p class="mb-2"><strong>Цена:</strong> {{ car.price }} ₽</p>
+                                <p class="mb-2"><strong>Год:</strong> {{ car.year }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-2"><strong>Дата:</strong> {{ inspection_request.inspection_date }}</p>
+                                <p class="mb-2"><strong>Время:</strong> {{ inspection_request.get_inspection_time_display }}</p>
+                                <p class="mb-2"><strong>Клиент:</strong> {{ inspection_request.full_name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <a href="{% url 'car_list' %}" class="btn btn-warning btn-lg me-3 px-4">
+                            <i class="fas fa-car me-2"></i>Вернуться в каталог
+                        </a>
+                        <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark btn-lg px-4">
+                            <i class="fas fa-arrow-left me-2"></i>К автомобилю
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

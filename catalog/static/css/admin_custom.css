@@ -1,0 +1,98 @@
+
+:root {
+    --primary: #ffc107 !important;        
+    --secondary: #fff3cd !important;      
+    --link-color: #5c5c5c !important;     
+    --link-hover-color: #292929 !important;
+}
+
+
+body {
+    background-color: #fffdf0;
+}
+
+
+
+
+a {
+    color: var(--link-color) !important;
+}
+
+a:hover {
+    color: var(--link-hover-color) !important;
+}
+
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #000 !important;
+}
+
+.btn-primary:hover {
+    background-color: #e0a800 !important;
+    border-color: #e0a800 !important;
+    color: #000 !important;
+}
+
+
+.nav-sidebar .nav-item > .nav-link.active {
+    background-color: var(--primary) !important;
+    color: #000 !important;
+}
+
+
+.nav-sidebar .nav-item > .nav-link:hover {
+    background-color: #fff3cd !important;
+    color: #000 !important;
+}
+
+
+.nav-sidebar .nav-icon {
+    color: var(--primary) !important;
+}
+
+
+.main-header {
+    background-color: var(--secondary) !important;
+    border-bottom: 2px solid var(--primary);
+}
+
+
+.content-header h1 {
+    color: var(--primary) !important;
+}
+
+
+.card {
+    border: 1px solid var(--primary);
+}
+
+.card-header {
+    background-color: var(--secondary);
+    border-bottom: 1px solid var(--primary);
+}
+
+
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25) !important;
+}
+
+
+.nav-tabs .nav-link.active {
+    border-color: var(--primary) var(--primary) #fff !important;
+    color: #000 !important;
+}
+
+
+.badge-primary {
+    background-color: var(--primary) !important;
+    color: #000 !important;
+}
+
+
+.breadcrumb-item.active {
+    color: var(--primary) !important;
+}
+

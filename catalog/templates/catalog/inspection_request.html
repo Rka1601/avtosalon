@@ -1,0 +1,226 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{% url 'car_detail' car.id %}" class="btn btn-secondary mb-3">
+        <i class="fas fa-arrow-left me-2"></i>Назад к автомобилю
+    </a>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-warning text-dark py-3">
+                    <h4 class="mb-0 fw-bold">
+                        <i class="fas fa-calendar-check me-2"></i>Запись на осмотр автомобиля
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <div class="car-info mb-4 p-3 bg-light rounded-3 border">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <i class="fas fa-car text-warning fa-2x"></i>
+                            </div>
+                            <div class="col">
+                                <h5 class="fw-bold text-dark mb-1">{{ car.brand }} {{ car.model }}</h5>
+                                <p class="text-muted mb-0">Год: {{ car.year }} • Цена: <span class="fw-bold text-warning">{{ car.price }} ₽</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Пожалуйста, исправьте ошибки:</strong>
+                        <ul class="mb-0 mt-2">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" id="inspectionForm" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.full_name.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="fas fa-user me-2 text-warning"></i>{{ form.full_name.label }}
+                                    </label>
+                                    {{ form.full_name }}
+                                    {% if form.full_name.help_text %}
+                                        <div class="form-text">{{ form.full_name.help_text }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.phone.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="fas fa-phone me-2 text-warning"></i>Телефон *
+                                    </label>
+                                    {{ form.phone }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
+                                <i class="fas fa-envelope me-2 text-warning"></i>Почта
+                            </label>
+                            {{ form.email }}
+                        </div>
+                        
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.inspection_date.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="fas fa-calendar me-2 text-warning"></i>{{ form.inspection_date.label }}
+                                    </label>
+                                    {{ form.inspection_date }}
+                                    <div class="form-text">Только будние дни (Пн-Пт)</div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.inspection_time.id_for_label }}" class="form-label fw-semibold">
+                                        <i class="fas fa-clock me-2 text-warning"></i>{{ form.inspection_time.label }}
+                                    </label>
+                                    {{ form.inspection_time }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <button type="submit" class="btn btn-warning btn-lg w-100 py-3 fw-bold mt-3">
+                            <i class="fas fa-calendar-check me-2"></i>Записаться на осмотр
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            
+            <div class="card mt-4 border-0 bg-light">
+                <div class="card-body">
+                    <h6 class="fw-bold text-dark mb-3">
+                        <i class="fas fa-info-circle me-2 text-warning"></i>Как проходит осмотр:
+                    </h6>
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3">
+                            <div class="bg-white p-3 rounded-3 border">
+                                <i class="fas fa-phone text-warning fa-lg mb-2"></i>
+                                <p class="mb-0 small fw-semibold">Подтверждение записи</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="bg-white p-3 rounded-3 border">
+                                <i class="fas fa-car text-warning fa-lg mb-2"></i>
+                                <p class="mb-0 small fw-semibold">Осмотр автомобиля</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="bg-white p-3 rounded-3 border">
+                                <i class="fas fa-handshake text-warning fa-lg mb-2"></i>
+                                <p class="mb-0 small fw-semibold">Консультация специалиста</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+
+<script>
+
+document.getElementById('id_inspection_date').addEventListener('change', function() {
+    const date = this.value;
+    const timeSelect = document.getElementById('id_inspection_time');   
+    if (date) {
+        
+        fetch(`/get-available-times/?date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                
+                const selectedValue = timeSelect.value;
+                
+                
+                timeSelect.innerHTML = '';
+                
+                
+                if (data.available_times.length > 0) {
+                    data.available_times.forEach(time => {
+                        const option = document.createElement('option');
+                        option.value = time;
+                        option.textContent = time;
+                        timeSelect.appendChild(option);
+                    });
+                    
+                    
+                    if (data.available_times.includes(selectedValue)) {
+                        timeSelect.value = selectedValue;
+                    }
+
+                } else {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'Нет свободного времени';
+                    option.disabled = true;
+                    option.selected = true;
+                    timeSelect.appendChild(option);
+
+                }
+            })
+    }
+});
+
+
+document.getElementById('id_phone').addEventListener('input', function(e) {
+    let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+    e.target.value = '+7' + (x[2] ? ' (' + x[2] : '') + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+});
+</script>
+{% endblock %}

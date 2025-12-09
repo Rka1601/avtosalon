@@ -1,0 +1,162 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<a href="{% url 'car_list' %}" class="btn btn-secondary mb-3">← Назад в каталог</a>
+
+<h1>{{ car.brand }} {{ car.model }} ({{ car.year }})</h1>
+<p class="card-price fs-3"><strong>{{ car.price }} ₽</strong></p>
+
+
+<div class="mb-4">
+    {% with car.photos.all as photos %}
+        {% if photos %}
+            <div id="carGallery" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for photo in photos %}
+                        <div class="carousel-item {% if forloop.first or photo.is_main %}active{% endif %}">
+                            <img src="{{ photo.image.url }}" class="d-block w-100" alt="..." style="height: 400px; object-fit: contain;">
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carGallery" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carGallery" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+        {% else %}
+            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">
+                <span>Фотографии автомобиля отсутствуют</span>
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+
+
+<div class="mb-3">
+    <a href="{% url 'inspection_request' car.id %}" class="btn btn-success btn-lg">
+        <i class="fas fa-calendar-check me-2"></i>Записаться на осмотр
+    </a>
+</div>
+
+
+<div class="mb-3">
+    <a href="{% url 'purchase_agreement' car.id %}" class="btn btn-warning btn-lg">
+        Перейти к договору
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Основные характеристики</h3>
+        <table class="table">
+            <tr><td>Пробег:</td><td>{{ car.mileage }} км</td></tr>
+            <tr><td>Двигатель:</td><td>{{ car.engine_volume }} л / {{ car.engine_power }} л.с. ({{ car.get_engine_type_display }})</td></tr>
+            <tr><td>Коробка:</td><td>{{ car.get_transmission_display }}</td></tr>
+            <tr><td>Привод:</td><td>{{ car.get_drive_display }}</td></tr>
+            <tr><td>Цвет:</td><td>{{ car.color }}</td></tr>
+            <tr><td>Состояние:</td><td>{{ car.get_condition_display }}</td></tr>
+            <tr><td>Владельцев:</td><td>{{ car.owners }}</td></tr>
+            <tr><td>Руль:</td><td>{{ car.get_steering_display }}</td></tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3>Комплектация</h3>
+        <ul>
+            {% for feature in car.features.all %}
+            <li>{{ feature.name }}</li>
+            {% empty %}
+            <li>Опции не указаны.</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Описание</h3>
+        <p>{{ car.description | linebreaks }}</p>
+    </div>
+</div>
+
+
+<div class="modal fade" id="phoneModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <img src="{% static 'catalog/images/phone-qr.png' %}" alt="QR код" class="img-fluid mb-3" style="max-width: 200px;">
+                <h4 class="text-primary-custom">{{ showroom_phone }}</h4>
+                <a href="tel:{{ showroom_phone }}" class="btn btn-primary-custom mt-3 fw-bold">
+                     Позвонить
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Назад</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    
+.table th {
+    background-color: var(--primary-dark);
+    color: white;
+    font-weight: 700;
+}
+
+.table td {
+    font-weight: 500;
+}
+
+
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .card-img-top {
+        height: 200px !important;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .filter-section {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    h1 {
+        font-size: 2rem !important;
+    }
+    
+    h2 {
+        font-size: 1.5rem !important;
+    }
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1) grayscale(100) brightness(0); 
+    background-size: 100%, 100%;
+    background-repeat: no-repeat;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.1); 
+}
+</style>
+{% endblock %}

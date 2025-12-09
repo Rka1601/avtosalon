@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Загрузка фото для {{ car.brand }} {{ car.model }}</title>
+</head>
+<body>
+    <h1>Загрузка фото для {{ car.brand }} {{ car.model }}</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Загрузить фото</button>
+    </form>
+    
+    <a href="{% url 'car_detail' car.id %}">Назад к автомобилю</a>
+</body>
+</html>

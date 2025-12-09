@@ -1,0 +1,199 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Фильтры</h5>
+            </div>
+            <div class="card-body">
+                <form method="get">
+                    <div class="mb-3">
+                        <label class="form-label">Марка</label>
+                        {{ filter_form.brand }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Модель</label>
+                        {{ filter_form.model }}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Цена от</label>
+                                {{ filter_form.min_price }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Цена до</label>
+                                {{ filter_form.max_price }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Год выпуска</label>
+                        {{ filter_form.year_range }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Коробка передач</label>
+                        {{ filter_form.transmission }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Тип двигателя</label>
+                        {{ filter_form.engine_type }}
+                    </div>
+
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Опции</label>
+                        <div class="filter-options">
+                            {% for option in filter_form.features %}
+                            <div class="form-check">
+                                {{ option.tag }}
+                                <label class="form-check-label" for="{{ option.id_for_label }}">
+                                    {{ option.choice_label }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Сортировка</label>
+                        {{ filter_form.sort }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary-custom fw-bold">Применить фильтры</button>
+                    <a href="{% url 'car_list' %}" class="btn btn-secondary w-100 mt-2">Сбросить</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Каталог автомобилей</h1>
+            <span class="text-muted">Найдено: {{ cars.paginator.count }} авто</span>
+        </div>
+
+        <div class="row">
+            {% for car in cars %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    {% with car.photos.all as photos %}
+                        {% if photos %}
+                            {% for photo in photos %}
+                                {% if photo.is_main or forloop.first %}
+                                    <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ car.brand }} {{ car.model }}" style="height: 200px; object-fit: contain;">
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <span>Нет фото</span>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.brand }} {{ car.model }} ({{ car.year }})</h5>
+                        <p class="card-text">
+                            <strong class="card-price">{{ car.price }} ₽</strong><br>
+                            Пробег: {{ car.mileage }} км<br>
+                            {{ car.engine_volume }} л / {{ car.engine_power }} л.с.<br>
+                            {{ car.get_transmission_display }}<br>
+                            {{ car.get_engine_type_display }}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'car_detail' car.id %}" class="btn btn-primary-custom fw-bold">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    По вашему запросу ничего не найдено. Попробуйте изменить параметры фильтрации.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        
+        {% if cars.has_other_pages %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if cars.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ cars.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Назад</a></li>
+                {% endif %}
+
+                {% for i in cars.paginator.page_range %}
+                    <li class="page-item {% if cars.number == i %}active{% endif %}">
+                        <a class="page-link" href="?page={{ i }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if cars.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ cars.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Вперед</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+
+<script src="{% static 'catalog/js/filters.js' %}"></script>
+<style>
+.filter-options {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    border-radius: 5px;
+}
+.form-check {
+    margin-bottom: 5px;
+}
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .card-img-top {
+        height: 200px !important;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .filter-section {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    h1 {
+        font-size: 2rem !important;
+    }
+    
+    h2 {
+        font-size: 1.5rem !important;
+    }
+}
+</style>
+{% endblock %}
